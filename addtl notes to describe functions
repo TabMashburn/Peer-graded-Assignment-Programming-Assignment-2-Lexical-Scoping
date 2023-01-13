@@ -1,0 +1,32 @@
+## Setting value of matrix and getting value of matrix
+## Then setting value of inverse (solve) and get inverse (solve)
+
+makeCacheMatrix <- function(x = matrix()) {
+  m <- NULL
+  set <- function(y){
+    x <<- y
+    m <<- NULL
+  }
+  get <- function() x
+  setsolve <- function(solve) m <<- solve
+  getsolve <- function() m
+  list(set = set, get = get,
+       setsolve = setsolve,
+       getsolve = getsolve)
+}
+
+
+## Calculates inverse of matrix.
+## If matrix already has inverse it gets the inverse matrix and skips calculations
+
+cacheSolve <- function(x, ...) {
+  m <- x$getsolve()
+  if(!is.null(m)) {
+    message("getting inversed matrix")
+    return(m)
+  }
+  data <- x$get()
+  m <- solve(data, ...)
+  x$setsolve(m)
+  m
+}
